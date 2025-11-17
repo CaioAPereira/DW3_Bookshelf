@@ -1,0 +1,67 @@
+### Necessário para pegar o token    
+### Post  
+# @name loginAutenticado  
+POST http://localhost:40000/Login HTTP/1.1  
+content-type: application/json  
+  
+{      
+    "UserName": "qwe",  
+    "Password": "qwe"  
+}  
+### Seta o token  
+@accessToken = {{loginAutenticado.response.body.$.token}}  
+@username = {{loginAutenticado.response.body.$.username}}  
+
+
+### teste de buscar todos os clientes 
+GET http://localhost:40000/GetAllClientes HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+    
+}  
+
+### teste de buscar cliente por ID  
+POST http://localhost:40000/GetClienteByID HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}   
+
+{     
+    "clienteid": 4 
+}  
+
+### teste de inserção de cliente  
+POST http://localhost:40000/InsertClientes HTTP/1.1  
+content-type: application/json  
+Authorization:  Bearer {{accessToken}} 
+  
+  
+{   
+    "nomeRazaoSocial": "Rogerio",  
+    "cpf_cnpj": "91993847374",   
+    "email": "Rogerio@gmail.com" 
+      
+}  
+
+### teste de atualização de cliente  
+POST http://localhost:40000/UpdateClientes HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}
+
+{      
+    "clienteid": 3,
+    "nomeRazaoSocial": "Rogerinho", 
+    "cpf_cnpj": "99988889999",  
+    "email": "djrogerin@gmail.com",  
+    "removido": false   
+}  
+
+### teste de deleção de cliente 
+POST http://localhost:40000/DeleteClientes HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}
+
+{      
+    "clienteid": 3    
+}  
