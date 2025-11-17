@@ -48,3 +48,39 @@ CREATE TABLE contas (
         ON DELETE RESTRICT -- Opção comum: impede a exclusão de um cliente que tenha contas associadas
         ON UPDATE CASCADE   -- Opção comum: se o ID do cliente mudar (raro), atualiza na tabela contas
 );
+
+CREATE TABLE livros(
+    livroid SERIAL UNIQUE NOT NULL,
+    Removido BOOLEAN NOT NULL DEFAULT FALSE,
+    Titulo TEXT NOT NULL,
+    Autor TEXT NOT NULL,
+    AnoPublicacao INT,
+    Genero TEXT,
+
+    -- Definição da Chave Primária
+    CONSTRAINT PK_Livro PRIMARY KEY (livroID)
+);
+
+CREATE TABLE emprestimos(
+    emprestimoid SERIAL UNIQUE NOT NULL,
+    Removido BOOLEAN NOT NULL DEFAULT FALSE,
+    ClienteID INTEGER NOT NULL,
+    LivroID INTEGER NOT NULL,
+    DataEmprestimo DATE NOT NULL,
+    DataDevolucao DATE,
+
+    -- Definição da Chave Primária
+    CONSTRAINT PK_Emprestimo PRIMARY KEY (emprestimoID),
+
+    -- Definição da Chave Estrangeira para Cliente
+    CONSTRAINT FK_Emprestimo_Cliente FOREIGN KEY (ClienteID)
+        REFERENCES clientes (clienteid)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+
+    -- Definição da Chave Estrangeira para Livro
+    CONSTRAINT FK_Emprestimo_Livro FOREIGN KEY (LivroID)
+        REFERENCES livros (livroid)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);

@@ -13,8 +13,8 @@ content-type: application/json
 @username = {{loginAutenticado.response.body.$.username}}  
 
 
-### teste de buscar todos os clientes 
-GET http://localhost:40000/GetAllClientes HTTP/1.1  
+### teste de buscar todos os livros 
+GET http://localhost:40000/GetAllLivros HTTP/1.1  
 content-type: application/json  
 Authorization: Bearer {{accessToken}}  
 
@@ -22,46 +22,46 @@ Authorization: Bearer {{accessToken}}
     
 }  
 
-### teste de buscar cliente por ID  
-POST http://localhost:40000/GetClienteByID HTTP/1.1  
+### teste de buscar livros por ID  
+POST http://localhost:40000/GetLivrosByID HTTP/1.1  
 content-type: application/json  
 Authorization: Bearer {{accessToken}}   
 
 {     
-    "clienteid": 1
+    "livroid": 1 
 }  
 
-### teste de inserção de cliente  
-POST http://localhost:40000/InsertClientes HTTP/1.1  
+### teste de inserção de livros  
+POST http://localhost:40000/InsertLivros HTTP/1.1  
 content-type: application/json  
 Authorization:  Bearer {{accessToken}} 
-  
-  
+
 {   
-    "nomerazaosocial": "Rogerio",  
-    "cpf_cnpj": "91993847374",   
-    "email": "Rogerio@gmail.com" 
-      
+    "titulo": "O Senhor dos Anéis",
+    "autor": "J.R.R. Tolkien",
+    "anopublicacao": 1954,
+    "genero": "Fantasia"
 }  
 
-### teste de atualização de cliente  
-POST http://localhost:40000/UpdateClientes HTTP/1.1  
+### teste de atualização de livros  
+POST http://localhost:40000/UpdateLivros HTTP/1.1  
 content-type: application/json  
 Authorization: Bearer {{accessToken}}
 
 {      
-    "clienteid": 3,
-    "nomeRazaoSocial": "Rogerinho", 
-    "cpf_cnpj": "99988889999",  
-    "email": "djrogerin@gmail.com",  
-    "removido": false   
+    "livroid": 1,
+    "titulo": "O Senhor dos Anais",
+    "autor": "J.R.R. Tolkien",
+    "anopublicacao": 2015,
+    "genero": "+18",
+    "removido": false
 }  
 
-### teste de deleção de cliente 
-POST http://localhost:40000/DeleteClientes HTTP/1.1  
+### teste de deleção de livros
+POST http://localhost:40000/DeleteLivros HTTP/1.1  
 content-type: application/json  
 Authorization: Bearer {{accessToken}}
 
 {      
-    "clienteid": 3    
+    "livroid": 2 
 }  
