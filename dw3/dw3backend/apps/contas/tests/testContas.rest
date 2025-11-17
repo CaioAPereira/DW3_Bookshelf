@@ -1,0 +1,81 @@
+### Necessário para pegar o token
+### Post
+# @name loginAutenticado
+POST http://localhost:40000/Login HTTP/1.1
+content-type: application/json
+
+{    
+    "UserName": "qwe",
+    "Password": "qwe"
+}
+### Seta o token
+@accessToken = {{loginAutenticado.response.body.$.token}}
+@username = {{loginAutenticado.response.body.$.username}}
+
+
+
+### teste de inserção de conta
+POST http://localhost:40000/insertContas HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{    
+    "valor": "100",
+    "dtaVencimento": "10/10/2025",
+    "dtaRecebimento": "10/09/2025",
+    "descricao": "conta de luz",
+    "clienteid": 3
+}
+
+### teste de buscar todos os contas
+GET http://localhost:40000/getAllContas HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{    
+    
+}
+
+### teste de buscar conta por ID
+POST http://localhost:40000/getContaByID HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{    
+    "contaid": 2
+}
+
+### teste de buscar conta por ID
+POST http://localhost:40000/getContaByIDGeral HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{    
+    "contaid": 3
+}
+
+
+
+### teste de atualização de conta
+POST http://localhost:40000/updateContas HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{    
+    "contasid": 3,
+    "valor": "180",
+    "dtaVencimento": "11/10/2025",
+    "dtaRecebimento": "10/08/2025",
+    "descricao": "Conta de luz com juros",
+    "clienteid": 3,
+    "removido": false
+}
+
+### teste de atualização de cliente
+POST http://localhost:40000/DeleteContas HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{    
+    "contasid": 3  
+}
