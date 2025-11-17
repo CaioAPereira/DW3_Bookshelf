@@ -4,6 +4,8 @@ const routerApp = express.Router();
 const appContas = require("../apps/contas/controller/ctlContas");
 const appClientes = require("../apps/clientes/controller/ctlClientes");
 const appLogin = require("../apps/login/controller/ctlLogin");
+const appEmprestimos = require("../apps/emprestimos/controller/ctlEmprestimos");
+const appLivros = require("../apps/livros/controller/ctlLivros");
 
 // middleware that is specific to this router
 routerApp.use((req, res, next) => {
@@ -32,5 +34,19 @@ routerApp.post("/DeleteClientes", appLogin.AutenticaJWT, appClientes.DeleteClien
 // Rota Login
 routerApp.post("/Login", appLogin.Login);
 routerApp.post("/Logout", appLogin.Logout);
+
+// Rotas de Emprestimos
+routerApp.get("/GetAllEmprestimos", appLogin.AutenticaJWT, appEmprestimos.GetAllEmprestimos);
+routerApp.post("/GetEmprestimosByID", appLogin.AutenticaJWT, appEmprestimos.GetEmprestimosByID);
+routerApp.post("/InsertEmprestimos", appLogin.AutenticaJWT, appEmprestimos.InsertEmprestimos);
+routerApp.post("/UpdateEmprestimos", appLogin.AutenticaJWT, appEmprestimos.UpdateEmprestimos);
+routerApp.post("/DeleteEmprestimos", appLogin.AutenticaJWT, appEmprestimos.DeleteEmprestimos);
+
+// Rotas de Livros
+routerApp.get("/GetAllLivros", appLogin.AutenticaJWT, appLivros.GetAllLivros);
+routerApp.post("/GetLivrosByID", appLogin.AutenticaJWT, appLivros.GetLivrosByID);
+routerApp.post("/InsertLivros", appLogin.AutenticaJWT, appLivros.InsertLivros);
+routerApp.post("/UpdateLivros", appLogin.AutenticaJWT, appLivros.UpdateLivros);
+routerApp.post("/DeleteLivros", appLogin.AutenticaJWT, appLivros.DeleteLivros);
 
 module.exports = routerApp;

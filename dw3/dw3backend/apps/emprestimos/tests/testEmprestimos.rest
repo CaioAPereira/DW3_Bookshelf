@@ -1,0 +1,69 @@
+### Necessário para pegar o token    
+### Post  
+# @name loginAutenticado  
+POST http://localhost:40000/Login HTTP/1.1  
+content-type: application/json  
+  
+{      
+    "UserName": "qwe",  
+    "Password": "qwe"  
+}  
+### Seta o token  
+@accessToken = {{loginAutenticado.response.body.$.token}}  
+@username = {{loginAutenticado.response.body.$.username}}  
+
+
+### teste de buscar todos os emprestimos 
+GET http://localhost:40000/GetAllEmprestimos HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+    
+}  
+
+### teste de buscar emprestimos por ID  
+POST http://localhost:40000/GetEmprestimosByID HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}   
+
+{     
+    "emprestimoid": 4 
+}  
+
+### teste de inserção de emprestimos  
+POST http://localhost:40000/InsertEmprestimos HTTP/1.1  
+content-type: application/json  
+Authorization:  Bearer {{accessToken}} 
+  
+  
+{   
+    "clienteid": 2,
+    "livroid": 2,
+    "dataemprestimo": "2024-06-20T00:00:00",
+    "datadevolucao": "2024-07-20T00:00:00"
+      
+}  
+
+### teste de atualização de emprestimos  
+POST http://localhost:40000/UpdateEmprestimos HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}
+
+{      
+    "clienteid": 2,
+    "livroid": 2,
+    "dataemprestimo": "2024-06-20T00:00:00",
+    "datadevolucao": "2024-10-20T00:00:00",
+    "removido": false,
+    "emprestimoid": 4
+}  
+
+### teste de deleção de emprestimos
+POST http://localhost:40000/DeleteEmprestimos HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}
+
+{      
+    "emprestimoid": 4  
+}  
