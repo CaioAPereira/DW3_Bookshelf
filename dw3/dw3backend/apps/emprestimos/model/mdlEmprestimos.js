@@ -25,24 +25,30 @@ const InsertEmprestimos = async (registroPar) => {
     const clienteid = registroPar.clienteid || null;
     const livroid = registroPar.livroid || null;
 
-    linhasAfetadas = (
-      await db.query(
-        "INSERT INTO emprestimos (removido, clienteid, livroid, dataemprestimo, datadevolucao) " +
-          "values(default, $1, $2, $3, $4)",
-        [
-          clienteid,
-          livroid,
-          registroPar.dataemprestimo,
-          registroPar.datadevolucao,
-        ]
-      )
-    ).rowCount;
+    const result = await db.query(
+      "INSERT INTO emprestimos (removido, clienteid, livroid, dataemprestimo, datadevolucao, valoremprestimo) " +
+        "values(default, $1, $2, $3, $4, $5) RETURNING emprestimoid",
+      [
+        clienteid,
+        livroid,
+        registroPar.dataemprestimo,
+        registroPar.datadevolucao,
+        registroPar.valoremprestimo,
+      ]
+    );
+
+    linhasAfetadas = result.rowCount;
+
+    // Pega o ID gerado
+    if (result.rows.length > 0) {
+      novoID = result.rows[0].emprestimoid;
+    }
   } catch (error) {
     msg = "[mdlEmprestimos|insertEmprestimos] " + error.message;
     linhasAfetadas = -1;
   }
 
-  return { msg, linhasAfetadas };
+  return { msg, linhasAfetadas, novoID };
 };
 
 const UpdateEmprestimos = async (registroPar) => {
@@ -58,7 +64,8 @@ const UpdateEmprestimos = async (registroPar) => {
           "clienteid = $2, " +
           "livroid = $3, " +
           "dataemprestimo = $4, " +
-          "datadevolucao = $5 " +
+          "datadevolucao = $5, " +
+          "valoremprestimo = $6 " +
           "WHERE emprestimoid = $1",
         [
           registroPar.emprestimoid,
@@ -66,6 +73,7 @@ const UpdateEmprestimos = async (registroPar) => {
           livroid,
           registroPar.dataemprestimo,
           registroPar.datadevolucao,
+          registroPar.valoremprestimo,
         ]
       )
     ).rowCount;
@@ -84,7 +92,9 @@ const DeleteEmprestimos = async (registroPar) => {
   try {
     linhasAfetadas = (
       await db.query(
-        "UPDATE emprestimos SET " + "removido = true " + "WHERE emprestimoid = $1",
+        "UPDATE emprestimos SET " +
+          "removido = true " +
+          "WHERE emprestimoid = $1",
         [registroPar.emprestimoid]
       )
     ).rowCount;
@@ -97,9 +107,9 @@ const DeleteEmprestimos = async (registroPar) => {
 };
 
 module.exports = {
-    GetAllEmprestimos,
-    GetEmprestimosByID,
-    InsertEmprestimos,
-    UpdateEmprestimos,
-    DeleteEmprestimos,
+  GetAllEmprestimos,
+  GetEmprestimosByID,
+  InsertEmprestimos,
+  UpdateEmprestimos,
+  DeleteEmprestimos,
 };
