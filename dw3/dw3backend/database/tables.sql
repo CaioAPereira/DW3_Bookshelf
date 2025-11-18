@@ -28,27 +28,6 @@ CREATE TABLE clientes (
     CONSTRAINT UK_Cliente_CPF_CNPJ UNIQUE (CPF_CNPJ)
 );
 
-
--- Tabela Contas
-CREATE TABLE contas (
-    contasid SERIAL UNIQUE NOT NULL,
-    Removido BOOLEAN NOT NULL DEFAULT FALSE,
-    Descricao TEXT NOT NULL,
-    Valor DECIMAL NOT NULL,
-    DataVencimento DATE NOT NULL,
-    DataRecebimento DATE,
-    ClienteID INTEGER NOT NULL,
-
-    -- Definição da Chave Primária
-    CONSTRAINT PK_Contas PRIMARY KEY (contasID),
-
-    -- Definição da Chave Estrangeira
-    CONSTRAINT FK_Contas_Cliente FOREIGN KEY (ClienteID)
-        REFERENCES clientes (clienteid)
-        ON DELETE RESTRICT -- Opção comum: impede a exclusão de um cliente que tenha contas associadas
-        ON UPDATE CASCADE   -- Opção comum: se o ID do cliente mudar (raro), atualiza na tabela contas
-);
-
 CREATE TABLE livros(
     livroid SERIAL UNIQUE NOT NULL,
     Removido BOOLEAN NOT NULL DEFAULT FALSE,
@@ -68,6 +47,7 @@ CREATE TABLE emprestimos(
     LivroID INTEGER NOT NULL,
     DataEmprestimo DATE NOT NULL,
     DataDevolucao DATE,
+    ValorEmprestimo DECIMAL NOT NULL,
 
     -- Definição da Chave Primária
     CONSTRAINT PK_Emprestimo PRIMARY KEY (emprestimoID),
@@ -82,5 +62,31 @@ CREATE TABLE emprestimos(
     CONSTRAINT FK_Emprestimo_Livro FOREIGN KEY (LivroID)
         REFERENCES livros (livroid)
         ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
+
+-- Tabela Contas
+CREATE TABLE contas (
+    contasid SERIAL UNIQUE NOT NULL,
+    Removido BOOLEAN NOT NULL DEFAULT FALSE,
+    Descricao TEXT NOT NULL,
+    Valor DECIMAL NOT NULL,
+    DtaVencimento DATE NOT NULL,
+    DtaRecebimento DATE,
+    ClienteID INTEGER NOT NULL,
+    emprestimoID INTEGER,
+
+    -- Definição da Chave Primária
+    CONSTRAINT PK_Contas PRIMARY KEY (contasID),
+
+    -- Definição da Chave Estrangeira
+    CONSTRAINT FK_Contas_Cliente FOREIGN KEY (ClienteID)
+        REFERENCES clientes (clienteid)
+        ON DELETE RESTRICT -- Opção comum: impede a exclusão de um cliente que tenha contas associadas
+        ON UPDATE CASCADE   -- Opção comum: se o ID do cliente mudar (raro), atualiza na tabela contas
+
+    CONSTRAINT FK_Contas_Emprestimo FOREIGN KEY (emprestimoID)
+        REFERENCES emprestimos (emprestimoID)
+        ON DELETE SET NULL
         ON UPDATE CASCADE
 );

@@ -28,7 +28,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}   
 
 {     
-    "clienteid": 1
+    "clienteid": 2
 }  
 
 ### teste de inserção de cliente  

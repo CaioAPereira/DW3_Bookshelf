@@ -28,7 +28,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}   
 
 {     
-    "emprestimoid": 4 
+    "emprestimoid": 26
 }  
 
 ### teste de inserção de emprestimos  
@@ -38,10 +38,11 @@ Authorization:  Bearer {{accessToken}}
   
   
 {   
-    "clienteid": 2,
-    "livroid": 2,
+    "clienteid": 1,
+    "livroid": 1,
     "dataemprestimo": "2024-06-20T00:00:00",
-    "datadevolucao": "2024-07-20T00:00:00"
+    "datadevolucao": "2024-07-20T00:00:00",
+    "valoremprestimo": 10
       
 }  
 
@@ -51,12 +52,13 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {      
-    "clienteid": 2,
-    "livroid": 2,
-    "dataemprestimo": "2024-06-20T00:00:00",
-    "datadevolucao": "2024-10-20T00:00:00",
+    "clienteid": 1,
+    "livroid": 1,
+    "dataemprestimo": "2024-05-20T00:00:00",
+    "datadevolucao": "2024-03-20T00:00:00",
     "removido": false,
-    "emprestimoid": 4
+    "emprestimoid": 11,
+    "valoremprestimo": 99
 }  
 
 ### teste de deleção de emprestimos
