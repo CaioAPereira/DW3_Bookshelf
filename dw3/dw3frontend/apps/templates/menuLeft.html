@@ -2,6 +2,7 @@
   <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
       <div class="nav">
+
         <div class="sb-sidenav-menu-heading">Principal</div>
         <a class="nav-link" href="/">
           <div class="sb-nav-link-icon">
@@ -9,57 +10,95 @@
           </div>
           Home
         </a>
-        
-        <!-- Módulo acadêmico -->
+
+        <!-- Módulo Bookshelf -->
         <div>
-          <div class="sb-sidenav-menu-heading">Financeiro</div>
+          <div class="sb-sidenav-menu-heading">Bookshelf</div>
 
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
             aria-expanded="false" aria-controls="collapsePages">
             <div class="sb-nav-link-icon">
               <i class="fas fa-book-open"></i>
             </div>
-            Financeiro
+            Biblioteca
             <div class="sb-sidenav-collapse-arrow">
               <i class="fas fa-angle-down"></i>
             </div>
           </a>
+
           <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-              <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth"
-                aria-expanded="false" aria-controls="pagesCollapseAuth">
+
+              <!-- CLIENTES -->
+              <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseClientes"
+                aria-expanded="false" aria-controls="pagesCollapseClientes">
                 Clientes
                 <div class="sb-sidenav-collapse-arrow">
                   <i class="fas fa-angle-down"></i>
                 </div>
               </a>
-              <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+              <div class="collapse" id="pagesCollapseClientes" aria-labelledby="headingOne"
                 data-bs-parent="#sidenavAccordionPages">
                 <nav class="sb-sidenav-menu-nested nav">
                   <a class="nav-link" href="/clientes/ManutClientes">Manutenção de clientes</a>
                 </nav>
               </div>
-              <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError"
-                aria-expanded="false" aria-controls="pagesCollapseError">
+
+              <!-- CONTAS -->
+              <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseContas"
+                aria-expanded="false" aria-controls="pagesCollapseContas">
                 Contas
                 <div class="sb-sidenav-collapse-arrow">
                   <i class="fas fa-angle-down"></i>
                 </div>
               </a>
-              <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
+              <div class="collapse" id="pagesCollapseContas" aria-labelledby="headingOne"
                 data-bs-parent="#sidenavAccordionPages">
                 <nav class="sb-sidenav-menu-nested nav">
                   <a class="nav-link" href="/contas/ManutContas">Manutenção de contas</a>
                 </nav>
               </div>
+
+              <!-- LIVROS -->
+              <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseLivros"
+                aria-expanded="false" aria-controls="pagesCollapseLivros">
+                Livros
+                <div class="sb-sidenav-collapse-arrow">
+                  <i class="fas fa-angle-down"></i>
+                </div>
+              </a>
+              <div class="collapse" id="pagesCollapseLivros" aria-labelledby="headingOne"
+                data-bs-parent="#sidenavAccordionPages">
+                <nav class="sb-sidenav-menu-nested nav">
+                  <a class="nav-link" href="/livros/ManutLivros">Manutenção de livros</a>
+                </nav>
+              </div>
+
+              <!-- EMPRÉSTIMOS -->
+              <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseEmprestimos"
+                aria-expanded="false" aria-controls="pagesCollapseEmprestimos">
+                Empréstimos
+                <div class="sb-sidenav-collapse-arrow">
+                  <i class="fas fa-angle-down"></i>
+                </div>
+              </a>
+              <div class="collapse" id="pagesCollapseEmprestimos" aria-labelledby="headingOne"
+                data-bs-parent="#sidenavAccordionPages">
+                <nav class="sb-sidenav-menu-nested nav">
+                  <a class="nav-link" href="/emprestimos/ManutEmprestimos">Manutenção de empréstimos</a>
+                </nav>
+              </div>
+
             </nav>
           </div>
         </div>
+
       </div>
     </div>
+
     <div class="sb-sidenav-footer">
       <div class="small">ERP SYS</div>
-            
     </div>
+
   </nav>
 </div>

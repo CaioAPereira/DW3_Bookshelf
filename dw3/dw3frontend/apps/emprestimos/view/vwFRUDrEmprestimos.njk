@@ -1,6 +1,7 @@
 {% extends "templates/base.html" %}
 
 {% block content %}
+<<<<<<< Updated upstream
 <div x-data="contaForm()">
   <ol class="breadcrumb mb-2">
     <li class="breadcrumb-item active">{{ title }}</li>
@@ -73,11 +74,64 @@
           <div :class="messageClass" x-text="message"></div>
         </template>
       </div>
+=======
+<div x-data="emprestimoForm()">
+  <ol class="breadcrumb mb-2"><li class="breadcrumb-item active">{{title}}</li></ol>
+
+  <div class="card-header">{{title}}</div>
+  <div class="card-body">
+    <form>
+      <input type="hidden" x-model="form.emprestimoid" />
+      <div class="row">
+        <div class="col-md-6">
+          <label>Cliente</label>
+          <select class="form-control" x-model="form.clienteid" x-bind:disabled="disabled">
+            <option value="">-- selecione --</option>
+            {% for c in clientes %}
+              <option value="{{ c.clienteid }}" {% if data and data.clienteid == c.clienteid %}selected{% endif %}>{{ c.nomerazaosocial }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label>Livro</label>
+          <select class="form-control" x-model="form.livroid" x-bind:disabled="disabled">
+            <option value="">-- selecione --</option>
+            {% for l in livros %}
+              <option value="{{ l.livroid }}" {% if data and data.livroid == l.livroid %}selected{% endif %}>{{ l.titulo }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-4 mt-3">
+          <label>Data Empréstimo</label>
+          <input type="date" class="form-control" x-model="form.dataemprestimo" x-bind:disabled="disabled">
+        </div>
+
+        <div class="col-md-4 mt-3">
+          <label>Data Devolução</label>
+          <input type="date" class="form-control" x-model="form.datadevolucao" x-bind:disabled="disabled">
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <button type="button" @click="updateForm()" x-show="!disabled" class="btn btn-primary">Salvar</button>
+        <button type="button" @click="deleteForm()" x-show="!disabled" class="btn btn-danger">Remover</button>
+        <a href="/emprestimos/ManutEmprestimos" class="btn btn-info ml-2">Retornar</a>
+      </div>
+    </form>
+
+    <div class="mt-3">
+      <template x-if="message">
+        <div :class="messageClass" x-text="message"></div>
+      </template>
+>>>>>>> Stashed changes
     </div>
   </div>
 </div>
 
 <script>
+<<<<<<< Updated upstream
   window.onload = function () {
     windowOnLoad();
     const localErro = "{{erro}}";
@@ -105,16 +159,43 @@
       async updateForm() {
         try {
           const response = await fetch('/contas/UpdateContas', {
+=======
+  window.onload = function () { windowOnLoad(); const localErro="{{erro}}"; if (localErro!="") alert(localErro); };
+
+  function emprestimoForm() {
+    return {
+      form: {
+        emprestimoid: "{{data.emprestimoid if data else ''}}",
+        clienteid: "{{data.clienteid if data else ''}}",
+        livroid: "{{data.livroid if data else ''}}",
+        dataemprestimo: "{{data.dataemprestimo if data else ''}}",
+        datadevolucao: "{{data.datadevolucao if data else ''}}",
+        removido: {{ data.removido | dump | safe if data else false }}
+      },
+      disabled: {{ disabled }},
+      message: '',
+      messageClass: '',
+
+      async updateForm() {
+        try {
+          const response = await fetch('/emprestimos/UpdateEmprestimos', {
+>>>>>>> Stashed changes
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.form)
           });
           const result = await response.json();
           if (result.status == "ok") {
+<<<<<<< Updated upstream
             alert("Conta atualizada com sucesso!");
             window.location.href = "/contas/manutContas";
           } else {
             this.message = `Erro! Não foi possível atualizar a conta: ${result.msg}`;
+=======
+            alert("Empréstimo atualizado com sucesso");
+          } else {
+            this.message = `Erro: ${result.msg}`;
+>>>>>>> Stashed changes
             this.messageClass = 'alert alert-danger';
           }
         } catch (error) {
@@ -125,6 +206,7 @@
 
       async deleteForm() {
         try {
+<<<<<<< Updated upstream
           const response = await fetch('/contas/DeleteContas', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
@@ -136,6 +218,19 @@
             window.location.href = "/contas/manutContas";
           } else {
             this.message = `Erro! Não foi possível excluir a conta: ${result.msg}`;
+=======
+          const response = await fetch('/emprestimos/DeleteEmprestimos', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ emprestimoid: this.form.emprestimoid })
+          });
+          const result = await response.json();
+          if (result.status == "ok") {
+            alert("Empréstimo removido com sucesso");
+            window.location.href = "/emprestimos/ManutEmprestimos";
+          } else {
+            this.message = `Erro: ${result.msg}`;
+>>>>>>> Stashed changes
             this.messageClass = 'alert alert-danger';
           }
         } catch (error) {
@@ -146,4 +241,8 @@
     };
   }
 </script>
+<<<<<<< Updated upstream
 {% endblock %}
+=======
+{% endblock %}
+>>>>>>> Stashed changes

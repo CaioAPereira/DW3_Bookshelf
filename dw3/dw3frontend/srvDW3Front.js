@@ -13,6 +13,8 @@ const port = process.env.PORT;
 var rtIndex = require("./routes/rtIndex");
 var rtContas = require("./routes/rtContas");
 var rtClientes = require("./routes/rtClientes");
+var rtEmprestimos = require("./routes/rtEmprestimos");
+var rtLivros = require("./routes/rtLivros");
 jwtchave = process.env.JWTCHAVE;
 
 var app = express();
@@ -41,6 +43,8 @@ app.use(
 app.use("/", rtIndex);
 app.use("/contas", rtContas);
 app.use("/clientes", rtClientes);
+app.use("/emprestimos", rtEmprestimos);
+app.use("/livros", rtLivros);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
