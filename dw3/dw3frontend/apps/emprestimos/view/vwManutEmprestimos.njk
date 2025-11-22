@@ -1,6 +1,7 @@
 {% extends "templates/base.html" %}
 
 {% block content %}
+<<<<<<< Updated upstream
 
   <ol class="breadcrumb mb-2">
     <li class="breadcrumb-item active">{{title}}</li>
@@ -61,6 +62,62 @@
             </table>
           </div>
         </div>
+=======
+  <ol class="breadcrumb mb-2">
+    <li class="breadcrumb-item active">{{title}}</li>
+  </ol>
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card-header">Manutenção de Empréstimos</div>
+
+      <div class="card-body">
+        <div style="margin-bottom: 15px;">
+          <a href="/emprestimos/InsertEmprestimos" class="btn btn-primary">Inserir novo empréstimo</a>
+        </div>
+
+        <div style="background-color: #f8f9fa">
+          <table id="tabEmprestimos" class="display" style="width:100%">
+            <thead>
+              <tr>
+                <th>Ação</th>
+                <th>Cliente</th>
+                <th>Livro</th>
+                <th>Data Empréstimo</th>
+                <th>Data Devolução</th>
+                <th>Removido?</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for reg in data %}
+                <tr>
+                  <td>
+                    <a href="/emprestimos/ViewEmprestimos/{{ reg.emprestimoid }}" title="Visualizar">
+                      <i class="fas fa-search"></i></a>
+
+                    <a href="/emprestimos/UpdateEmprestimos/{{ reg.emprestimoid }}" 
+                       title="Atualizar" style="margin-left:10px;">
+                      <i class="fas fa-pencil-alt"></i></a>
+                  </td>
+
+                  <!-- Aqui removemos o bloco com erro do set -->
+                  <td>{{ reg.clienteid }}</td>
+
+                  <td>{{ reg.livroid }}</td>
+
+                  <td>{{ reg.dataemprestimo }}</td>
+
+                  <td>{{ reg.datadevolucao or "" }}</td>
+
+                  <td>{{ "Sim" if reg.removido else "Não" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+>>>>>>> Stashed changes
       </div>
     </div>
   </div>
@@ -68,6 +125,7 @@
   <script>
     window.onload = function () {
       windowOnLoad();
+<<<<<<< Updated upstream
 
       //@ Caso tenha dado erro no servidor frontEnd, ele será mostrado aqui.
       const localErro = "{{erro}}";
@@ -80,3 +138,14 @@
   </script>
 
 {% endblock %}
+=======
+      const localErro = "{{erro}}";
+      if (localErro != "") { 
+        alert("[vwEmprestimos|onload] Servidor retornou o erro:" + localErro); 
+      }
+      new DataTable('#tabEmprestimos');
+    };
+  </script>
+
+{% endblock %}
+>>>>>>> Stashed changes

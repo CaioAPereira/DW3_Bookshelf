@@ -1,0 +1,50 @@
+{% extends "templates/base.html" %}
+
+{% block content %}
+  <ol class="breadcrumb mb-2"><li class="breadcrumb-item active">{{title}}</li></ol>
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card-header">Manutenção de Livros</div>
+      <div class="card-body">
+        <div style="margin-bottom:15px;">
+          <a href="/livros/InsertLivros" class="btn btn-primary">Inserir novo livro</a>
+        </div>
+
+        <div style="background-color:#f8f9fa">
+          <table id="tabLivros" class="display" style="width:100%">
+            <thead>
+              <tr>
+                <th>Ação</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Ano</th>
+                <th>Gênero</th>
+                <th>Removido?</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for reg in data %}
+                <tr>
+                  <td>
+                    <a href="/livros/ViewLivros/{{ reg.livroid }}"><i class="fas fa-search"></i></a>
+                    <a href="/livros/UpdateLivros/{{ reg.livroid }}" style="margin-left:10px;"><i class="fas fa-pencil-alt"></i></a>
+                  </td>
+                  <td>{{ reg.titulo }}</td>
+                  <td>{{ reg.autor }}</td>
+                  <td>{{ reg.anopublicacao }}</td>
+                  <td>{{ reg.genero }}</td>
+                  <td>{{ "Sim" if reg.removido else "Não" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function () { windowOnLoad(); const localErro = "{{erro}}"; if (localErro!="") alert(localErro); new DataTable('#tabLivros'); };
+  </script>
+{% endblock %}

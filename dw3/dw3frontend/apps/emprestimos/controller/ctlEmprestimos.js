@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 // ctlContas.js - Frontend Controller para Contas
 
 const axios = require("axios");
@@ -56,10 +57,29 @@ const manutContas = async (req, res) =>
       }
       res.render("contas/view/vwManutContas.njk", {
         title: "Manutenção de Contas",
+=======
+const axios = require("axios");
+
+const manutEmprestimos = async (req, res) =>
+  (async () => {
+    const userName = req.session.userName;
+    const token = req.session.token;
+    let remoteMSG = "";
+
+    const resp = await axios.get(process.env.SERVIDOR_DW3Back + "/GetAllEmprestimos", {
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
+    }).catch(error => {
+      if (error.code === "ECONNREFUSED") remoteMSG = "Servidor indisponível";
+      else if (error.code === "ERR_BAD_REQUEST") remoteMSG = "Usuário não autenticado";
+      else remoteMSG = error.message;
+      res.render("emprestimos/view/vwManutEmprestimos.njk", {
+        title: "Manutenção de Empréstimos",
+>>>>>>> Stashed changes
         data: null,
         erro: remoteMSG,
         userName: userName,
       });
+<<<<<<< Updated upstream
     }
   })();
 
@@ -98,11 +118,54 @@ const insertContas = async (req, res) =>
           erro: "Erro ao buscar clientes",
           clientes: [],
           userName: req.session.userName,
+=======
+    });
+
+    if (!resp) return;
+
+    res.render("emprestimos/view/vwManutEmprestimos.njk", {
+      title: "Manutenção de Empréstimos",
+      data: resp.data.registro,
+      erro: null,
+      userName: userName,
+    });
+  })();
+
+const insertEmprestimos = async (req, res) =>
+  (async () => {
+    const token = req.session.token;
+    const userName = req.session.userName;
+
+    if (req.method === "GET") {
+      // precisa carregar lista de clientes e livros para o select
+      try {
+        const [clientesResp, livrosResp] = await Promise.all([
+          axios.get(process.env.SERVIDOR_DW3Back + "/GetAllClientes", { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(process.env.SERVIDOR_DW3Back + "/GetAllLivros", { headers: { Authorization: `Bearer ${token}` } })
+        ]);
+
+        res.render("emprestimos/view/vwFCrEmprestimos.njk", {
+          title: "Cadastro de Empréstimos",
+          clientes: clientesResp.data.registro,
+          livros: livrosResp.data.registro,
+          erro: null,
+          userName: userName,
+        });
+      } catch (error) {
+        const remoteMSG = error.message || "Erro carregando clientes/livros";
+        res.render("emprestimos/view/vwFCrEmprestimos.njk", {
+          title: "Cadastro de Empréstimos",
+          clientes: null,
+          livros: null,
+          erro: remoteMSG,
+          userName: userName,
+>>>>>>> Stashed changes
         });
       }
     } else {
       // POST
       const regData = req.body;
+<<<<<<< Updated upstream
       const token = req.session.token;
 
       try {
@@ -117,6 +180,13 @@ const insertContas = async (req, res) =>
             timeout: 5000,
           }
         );
+=======
+      try {
+        const response = await axios.post(process.env.SERVIDOR_DW3Back + "/InsertEmprestimos", regData, {
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          timeout: 5000
+        });
+>>>>>>> Stashed changes
 
         res.json({
           status: response.data.status,
@@ -125,6 +195,7 @@ const insertContas = async (req, res) =>
           erro: null,
         });
       } catch (error) {
+<<<<<<< Updated upstream
         console.error(
           "[ctlContas|insertContas] Erro ao inserir conta:",
           error.message
@@ -135,10 +206,15 @@ const insertContas = async (req, res) =>
           data: null,
           erro: null,
         });
+=======
+        console.error('[ctlEmprestimos|insertEmprestimos] ', error.message);
+        res.json({ status: "Error", msg: error.message, data: null, erro: error.message });
+>>>>>>> Stashed changes
       }
     }
   })();
 
+<<<<<<< Updated upstream
 // =======================================================================
 // @ Função de Visualização de Contas
 // =======================================================================
@@ -335,3 +411,122 @@ module.exports = {
   UpdateContas,
   DeleteContas,
 };
+=======
+const ViewEmprestimos = async (req, res) =>
+  (async () => {
+    const id = parseInt(req.params.id);
+    const token = req.session.token;
+    const userName = req.session.userName;
+
+    try {
+      const [registroResp, clientesResp, livrosResp] = await Promise.all([
+        axios.post(process.env.SERVIDOR_DW3Back + "/GetEmprestimosByID", { emprestimoid: id }, { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get(process.env.SERVIDOR_DW3Back + "/GetAllClientes", { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get(process.env.SERVIDOR_DW3Back + "/GetAllLivros", { headers: { Authorization: `Bearer ${token}` } })
+      ]);
+
+      res.render("emprestimos/view/vwFRUDrEmprestimos.njk", {
+        title: "Visualização de Empréstimo",
+        data: registroResp.data.registro[0],
+        clientes: clientesResp.data.registro,
+        livros: livrosResp.data.registro,
+        disabled: true,
+        userName: userName,
+        erro: null,
+      });
+    } catch (error) {
+      console.error('[ctlEmprestimos|ViewEmprestimos] ', error.message);
+      res.render("emprestimos/view/vwFRUDrEmprestimos.njk", {
+        title: "Visualização de Empréstimo",
+        data: null,
+        clientes: null,
+        livros: null,
+        disabled: true,
+        userName: userName,
+        erro: error.message,
+      });
+    }
+  })();
+
+const UpdateEmprestimos = async (req, res) =>
+  (async () => {
+    const token = req.session.token;
+    const userName = req.session.userName;
+
+    if (req.method === "GET") {
+      const id = parseInt(req.params.id);
+      try {
+        const [registroResp, clientesResp, livrosResp] = await Promise.all([
+          axios.post(process.env.SERVIDOR_DW3Back + "/GetEmprestimosByID", { emprestimoid: id }, { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(process.env.SERVIDOR_DW3Back + "/GetAllClientes", { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(process.env.SERVIDOR_DW3Back + "/GetAllLivros", { headers: { Authorization: `Bearer ${token}` } })
+        ]);
+
+        res.render("emprestimos/view/vwFRUDrEmprestimos.njk", {
+          title: "Atualização de Empréstimo",
+          data: registroResp.data.registro[0],
+          clientes: clientesResp.data.registro,
+          livros: livrosResp.data.registro,
+          disabled: false,
+          userName: userName,
+          erro: null,
+        });
+      } catch (error) {
+        console.error('[ctlEmprestimos|UpdateEmprestimos GET] ', error.message);
+        res.render("emprestimos/view/vwFRUDrEmprestimos.njk", {
+          title: "Atualização de Empréstimo",
+          data: null,
+          clientes: null,
+          livros: null,
+          disabled: false,
+          userName: userName,
+          erro: error.message,
+        });
+      }
+    } else {
+      // POST update
+      const regData = req.body;
+      try {
+        const response = await axios.post(process.env.SERVIDOR_DW3Back + "/UpdateEmprestimos", regData, {
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          timeout: 5000
+        });
+
+        res.json({
+          status: response.data.status,
+          msg: response.data.msg,
+          data: response.data,
+          erro: null,
+        });
+      } catch (error) {
+        console.error('[ctlEmprestimos|UpdateEmprestimos POST] ', error.message);
+        res.json({ status: "Error", msg: error.message, data: null, erro: error.message });
+      }
+    }
+  })();
+
+const DeleteEmprestimos = async (req, res) =>
+  (async () => {
+    const regData = req.body;
+    const token = req.session.token;
+    try {
+      const response = await axios.post(process.env.SERVIDOR_DW3Back + "/DeleteEmprestimos", regData, {
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        timeout: 5000
+      });
+
+      res.json({ status: response.data.status, msg: response.data.msg, data: response.data, erro: null });
+    } catch (error) {
+      console.error('[ctlEmprestimos|DeleteEmprestimos] ', error.message);
+      res.json({ status: "Error", msg: error.message, data: null, erro: error.message });
+    }
+  })();
+
+module.exports = {
+  manutEmprestimos,
+  insertEmprestimos,
+  ViewEmprestimos,
+  UpdateEmprestimos,
+  DeleteEmprestimos,
+};
+>>>>>>> Stashed changes
