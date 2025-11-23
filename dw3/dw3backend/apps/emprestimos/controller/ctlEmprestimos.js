@@ -3,6 +3,7 @@
 const mdlEmprestimos = require("../model/mdlEmprestimos");
 const mdlContas = require("../../contas/model/mdlContas");
 const mdlClientes = require("../../clientes/model/mdlClientes");
+const mdlLivros = require("../../livros/model/mdlLivros");
 
 const GetAllEmprestimos = (req, res) =>
   (async () => {
@@ -24,7 +25,7 @@ const InsertEmprestimos = (request, res) =>
   (async () => {
     try {
       const registro = request.body;
-      
+
       // 1. Insere Empréstimo e ESPERA O ID DE VOLTA
       let retornoEmp = await mdlEmprestimos.InsertEmprestimos(registro);
 
@@ -37,13 +38,13 @@ const InsertEmprestimos = (request, res) =>
       const nomeCliente = registroCliente[0] ? registroCliente[0].nomerazaosocial : "Cliente";
 
       // 3. Prepara e Insere a Conta AUTOMATICAMENTE
-      console.log("NovoID: "+retornoEmp.novoID );
+      console.log("NovoID: " + retornoEmp.novoID);
       let jsonContas = {
         valor: registro.valoremprestimo,
-        descricao: `Empréstimo Livro ID ${registro.livroid} - ${nomeCliente}`,
+        descricao: `Empréstimo Livro ${registro.livroid} - ${nomeCliente}`,
         dtarecebimento: registro.dataemprestimo,
         dtavencimento: registro.datadevolucao,
-        clienteid: registro.clienteid,        
+        clienteid: registro.clienteid,
         emprestimoid: retornoEmp.novoID // <--- AQUI ESTÁ O VÍNCULO!
       };
 
@@ -66,7 +67,7 @@ const InsertEmprestimos = (request, res) =>
 const UpdateEmprestimos = (request, res) =>
   (async () => {
     try {
-      const registro = request.body; 
+      const registro = request.body;
 
       // 1. Atualiza Empréstimo
       let retornoEmp = await mdlEmprestimos.UpdateEmprestimos(registro);
@@ -87,10 +88,10 @@ const UpdateEmprestimos = (request, res) =>
 
       let retornoConta = await mdlContas.UpdateContasPorEmprestimo(jsonContas);
 
-      res.json({ 
-          status: "ok", 
-          msg: "Empréstimo e Conta Financeira atualizados.", 
-          linhasAfetadas: retornoEmp.linhasAfetadas 
+      res.json({
+        status: "ok",
+        msg: "Empréstimo e Conta Financeira atualizados.",
+        linhasAfetadas: retornoEmp.linhasAfetadas
       });
 
     } catch (error) {

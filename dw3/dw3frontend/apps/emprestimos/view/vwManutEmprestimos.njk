@@ -1,75 +1,10 @@
 {% extends "templates/base.html" %}
 
 {% block content %}
-<<<<<<< Updated upstream
-
-  <ol class="breadcrumb mb-2">
-    <li class="breadcrumb-item active">{{title}}</li>
-  </ol>
-  <div class="row">
-    <div class="col-xl-12">
-
-      <div class="card-header">
-        Manutenção de Contas
-      </div>
-
-      <div class="card-body">
-        <div class="">
-          <div style="margin-bottom: 15px;">
-            <a href="/contas/insertContas" class="btn btn-primary">
-              Inserir nova conta
-            </a>
-          </div>
-
-          <div style="background-color: #f8f9fa">
-            <table id="tabContas" class="display" style="width:100%">
-              <thead>
-                <tr>
-                  <th>Ação</th>
-                  <th>ID</th>
-                  <th>Descrição</th>
-                  <th>Valor (R$)</th>
-                  <th>Data de Vencimento</th>
-                  <th>Data de Recebimento</th>
-                  <th>Cliente</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for reg in data %}
-                  <tr>
-                    <td>
-                      {# Link para visualização dos dados #}
-                      <a href="/contas/viewContas/{{ reg.contasid }}" title="Visualizar">
-                        <i class="fas fa-search"></i>
-                      </a>
-
-                      {# Link para atualização e remoção dos dados #}
-                      <a href="/contas/UpdateContas/{{ reg.contasid }}" title="Atualizar" style="margin-left: 10px;">
-                        <i class="fas fa-pencil-alt"></i>
-                      </a>
-                    </td>
-                    <td>{{ reg.contasid }}</td>
-                    <td>{{ reg.descricao }}</td>
-                    
-                    <td>{{ reg.valor | round(2) }}</td>
-                    
-                    <td>{{ reg.dtavencimento }}</td>
-                    <td>{{ reg.dtarecebimento }}</td>
-                    <td>{{ reg.nomerazaosocial }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
-=======
-  <ol class="breadcrumb mb-2">
-    <li class="breadcrumb-item active">{{title}}</li>
-  </ol>
 
   <div class="row">
     <div class="col-xl-12">
-      <div class="card-header">Manutenção de Empréstimos</div>
+        <div style="margin-left:16px"><br><h3>{{title}}</h3></div>
 
       <div class="card-body">
         <div style="margin-bottom: 15px;">
@@ -117,7 +52,6 @@
           </table>
         </div>
 
->>>>>>> Stashed changes
       </div>
     </div>
   </div>
@@ -125,20 +59,6 @@
   <script>
     window.onload = function () {
       windowOnLoad();
-<<<<<<< Updated upstream
-
-      //@ Caso tenha dado erro no servidor frontEnd, ele será mostrado aqui.
-      const localErro = "{{erro}}";
-      if (localErro != "") {
-        alert("[vwContas|onload] Servidor retornou o erro: " + localErro);
-      }
-
-      new DataTable('#tabContas');
-    };
-  </script>
-
-{% endblock %}
-=======
       const localErro = "{{erro}}";
       if (localErro != "") { 
         alert("[vwEmprestimos|onload] Servidor retornou o erro:" + localErro); 
@@ -148,4 +68,3 @@
   </script>
 
 {% endblock %}
->>>>>>> Stashed changes
