@@ -2,37 +2,124 @@
 
 {% block content %}
 
-  
-  <ol class="breadcrumb mb-2">
-    <li class="breadcrumb-item active">{{title}}</li>
-  </ol>
+<style>
+HTML
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    /* Reset básico */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
+
+    /* Container em Grid para ocupar 100% da largura */
+    .grid-full-width {
+        display: grid;
+        /* Cria 4 colunas de tamanhos iguais */
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 20px; /* Espaço entre os quadrados */
+        width: 100%;
+    }
+
+    .card-item {
+        background-color: #ffffff;
+        border-radius: 16px; /* Borda arredondada */
+        
+        /* Força o elemento a ser sempre um quadrado exato */
+        aspect-ratio: 1 / 1; 
+        width: 100%; /* Ocupa toda a largura disponível da coluna do grid */
+        
+        /* Centralização do conteúdo */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: #333;
+    }
+
+    .card-item:hover {
+        border-color:  ;
+        background-color: #fafafa;
+        transform: scale(1.02); /* Leve aumento ao passar o mouse */
+    }
+
+    .card-item span {
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 1.2rem; /* Texto maior para acompanhar o quadrado maior */
+    }
+
+    .icon {
+        width: 64px; /* Ícones maiores */
+        height: 64px;
+        fill: #444;
+    }
+
+    /* --- PONTO DE ATENÇÃO (Responsividade) --- */
+    /* Em telas muito pequenas (celulares), 4 quadrados lado a lado ficam ilegíveis.
+       Esta regra faz eles ficarem 2 por linha em telas menores que 768px. */
+    @media (max-width: 768px) {
+        .grid-full-width {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+
+<div style="margin-left:16px"><br><h3><b>Acesso Rápido</b></h3></div><br>
   <div class="row">
     <div class="col-xl-12">
+    <div class="grid-full-width">
 
-      <div class="card-header">
-        Início
-      </div>
+    <a class="nav-link" href="/livros/ManutLivros">
+     <div class="card-item">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="#4F46E5">
+  <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
+</svg>
+        <span>Livros</span>
+    </div> 
+    </a>
 
-      <div class="card-body">
-        <div class="col-xl-5">
+<a class="nav-link" href="/clientes/manutClientes">
+    <div class="card-item">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="#4F46E5">
+  <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+</svg>
+        <span>Clientes</span>
+    </div>
+</a>
 
-          <div>
-            <h3>Trabalho para a Disciplina: <br><br> Desenvolvimento Web III</h3>
-            <br>
-            <p style="text-align: justify;">Software desenvolvido seguindo a arquitetura Cliente-Servidor visto nas aulas da disciplina.</p>
-            <br>
-            <b><p>Tech Lead:</b> Caio Pereira</p>
-            <b><p>Programadores:</b> Erick Alves e Pablo Guedes</p>
-            <br>
-            <p style="text-align: justify;">O objetivo é criar um mini-módulo financeiro de um sistema ERP, 
-            implementando tanto o back-end (APIs) quanto o front-end (interface gráfica) para fazer o 
-            CRUD (Create, Read, Update, Delete) de duas tabelas relacionadas em um relacionamento 1:N 
-            (um para muitos).</p>
-          </div>
+<a class="nav-link" href="/contas/ManutContas">
+    <div class="card-item">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="#4F46E5">
+  <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+</svg>
+        <span>Contas</span>
+    </div>
+</a>
+
+<a class="nav-link" href="/emprestimos/ManutEmprestimos">
+    <div class="card-item">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="#4F46E5">
+  <path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/>
+</svg>
+        <span>Empréstimos</span>
+    </div>
+</a>
+</div>
         </div>
       </div>
-    </div>
-  </div>
 
 
 

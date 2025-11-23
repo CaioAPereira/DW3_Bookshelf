@@ -1,156 +1,9 @@
 {% extends "templates/base.html" %}
 
 {% block content %}
-<<<<<<< Updated upstream
-  <div x-data="contaForm()">
-    <ol class="breadcrumb mb-2">
-      <li class="breadcrumb-item active">{{ title }}</li>
-    </ol>
-
-    <div class="row">
-      <div class="col-12">
-        <div class="card-header">
-          {{ title }}
-        </div>
-
-        <div class="card-body">
-          <div class="">
-            <form>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label for="valor">Valor (R$)</label>
-                    <input type="number" step="0.01" class="form-control" id="valor" x-model="form.valor" required>
-                  </div>
-                </div>
-
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="descricao">Descrição</label>
-                    <input type="text" class="form-control" id="descricao" x-model="form.descricao" required>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="dtavencimento">Data de Vencimento</label>
-                    <input type="date" class="form-control" id="dtavencimento" x-model="form.dtavencimento" required>
-                  </div>
-                </div>
-
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="dtarecebimento">Data de Recebimento</label>
-                    <input type="date" class="form-control" id="dtarecebimento" x-model="form.dtarecebimento">
-                  </div>
-                </div>
-
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="clienteid">Cliente</label>
-                    <select class="form-select" id="clienteid" x-model="form.clienteid" name="clienteid" required>
-                      <option value="">Selecione um cliente</option>
-                      {% for cli in clientes %}
-                        <option value="{{ cli.clienteid }}">{{ cli.nomerazaosocial }}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <button type="button" @click="insertForm()" class="btn btn-primary mt-4">Salvar</button>
-              <a href="/contas/manutContas" class="btn btn-info mt-4 ml-2" role="button" aria-disabled="true">Retornar</a>
-            </form>
-
-            <div class="mt-3">
-              <template x-if="message">
-                <div :class="messageClass" x-text="message"></div>
-              </template>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    window.onload = function () {
-      windowOnLoad();
-
-      const localErro = "{{ erro }}";
-      if (localErro != "") {
-        alert("[vwContas|onload] Servidor retornou o erro: " + localErro);
-      }
-      $("#valor").focus();
-    };
-
-    function contaForm() {
-      return {
-        form: {
-          valor: '',
-          dtavencimento: '',
-          dtarecebimento: '',
-          descricao: '',
-          clienteid: '',
-          removido: false
-        },
-        message: '',
-        messageClass: '',
-
-        async insertForm() {
-          try {
-            console.log("Valor enviado:", JSON.stringify(this.form));
-
-            const response = await fetch('/contas/insertContas', {
-              method: 'POST',
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify(this.form)
-            });
-
-            const result = await response.json();
-            console.log("Resposta do servidor:", result);
-
-            if (result.status === "ok") {
-              alert("Conta cadastrada com sucesso!");
-              this.resetForm();
-            } else {
-              const errorData = result.msg;
-              this.message = `Erro! Não foi possível cadastrar a conta: ${errorData}`;
-              this.messageClass = 'alert alert-danger';
-            }
-          } catch (error) {
-            this.message = `Erro de conexão: ${error.message}`;
-            this.messageClass = 'alert alert-danger';
-          }
-        },
-
-        resetForm() {
-          this.form = {
-            valor: '',
-            dtavencimento: '',
-            dtarecebimento: '',
-            descricao: '',
-            clienteid: '',
-            removido: false
-          };
-          this.message = false;
-        }
-      };
-    }
-  </script>
-
-{% endblock %}
-=======
 <div x-data="emprestimoForm()">
-  <ol class="breadcrumb mb-2">
-    <li class="breadcrumb-item active">{{title}}</li>
-  </ol>
 
-  <div class="card-header">{{title}}</div>
+  <div style="margin-left:16px"><br><h3>{{title}}</h3></div>
   <div class="card-body">
     <form>
       <div class="row">
@@ -158,7 +11,7 @@
           <div class="form-group">
             <label for="clienteid">Cliente</label>
             <select id="clienteid" class="form-control" x-model="form.clienteid">
-              <option value="">-- selecione --</option>
+              <option value="">Selecione</option>
               {% for c in clientes %}
                 <option value="{{ c.clienteid }}">{{ c.nomerazaosocial }}</option>
               {% endfor %}
@@ -170,11 +23,18 @@
           <div class="form-group">
             <label for="livroid">Livro</label>
             <select id="livroid" class="form-control" x-model="form.livroid">
-              <option value="">-- selecione --</option>
+              <option value="">Selecione</option>
               {% for l in livros %}
                 <option value="{{ l.livroid }}">{{ l.titulo }}</option>
               {% endfor %}
             </select>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="valoremprestimo">Valor (R$)</label>
+            <input type="number" step="0.01" id="valoremprestimo" class="form-control" x-model="form.valoremprestimo" placeholder="0.00">
           </div>
         </div>
 
@@ -206,13 +66,18 @@
 </div>
 
 <script>
-  window.onload = function () { windowOnLoad(); const localErro = "{{erro}}"; if (localErro != "") alert(localErro); };
+  window.onload = function () { 
+      // windowOnLoad(); // Verifique se essa função existe no seu base.html, senão comente
+      const localErro = "{{erro}}"; 
+      if (localErro != "") alert(localErro); 
+  };
 
   function emprestimoForm() {
     return {
       form: {
         clienteid: '',
         livroid: '',
+        valoremprestimo: '', // <--- ADICIONADO AQUI: Obrigatório para o backend
         dataemprestimo: '',
         datadevolucao: '',
         removido: false
@@ -221,15 +86,23 @@
       messageClass: '',
 
       async insertForm() {
+        // Validação básica antes de enviar
+        if (!this.form.valoremprestimo || !this.form.clienteid || !this.form.livroid) {
+            alert("Preencha todos os campos obrigatórios!");
+            return;
+        }
+
         try {
           const response = await fetch('/emprestimos/InsertEmprestimos', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.form)
           });
+          
           const result = await response.json();
+          
           if (result.status == "ok") {
-            alert("Empréstimo cadastrado com sucesso");
+            alert("Empréstimo cadastrado com sucesso e conta gerada!");
             window.location.href = "/emprestimos/ManutEmprestimos";
           } else {
             this.message = `Erro: ${result.msg || JSON.stringify(result)}`;
@@ -244,4 +117,3 @@
   }
 </script>
 {% endblock %}
->>>>>>> Stashed changes

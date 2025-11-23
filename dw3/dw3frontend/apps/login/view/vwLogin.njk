@@ -4,60 +4,118 @@
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <meta name="description" content=""/>
-        <meta name="author" content=""/>
         <title>{{ title }}</title>
+        
         <link href="static/css/styles.css" rel="stylesheet"/>
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+
+        <style>
+            html, body {
+                height: 100%; 
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                display: flex;
+                align-items: center;     
+                justify-content: center;
+                background: linear-gradient(135deg, #4F46E5 0%, #965afcff 100%);
+                background-attachment: fixed; 
+            }
+
+            #layoutAuthentication {
+                width: 100%;
+                max-width: 600px; 
+                padding: 20vh;   
+            }
+
+            .card {
+                border: none;
+                border-radius: 20px; 
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
+                background-color: rgba(255, 255, 255, 0.98); 
+                overflow: hidden;
+            }
+
+            .card-header {
+                background: transparent;
+                border-bottom: none;
+                padding-top: 2.5rem;
+                padding-bottom: 1rem;
+            }
+
+            .card-header h3 {
+                font-weight: 700;
+                color: #111827;
+                font-size: 1.75rem;
+                letter-spacing: -0.5px;
+            }
+
+            .form-floating > .form-control {
+                border-radius: 10px;
+                border: 1px solid #d1d5db;
+                height: 3.5rem;
+            }
+            
+            .form-floating > .form-control:focus {
+                border-color: #6366f1;
+                box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            }
+
+            .btn-primary {
+                background-color: #4F46E5;
+                border: none;
+                border-radius: 10px;
+                padding: 14px;
+                font-size: 1rem;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                width: 100%;
+                box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.1), 0 2px 4px -1px rgba(79, 70, 229, 0.06);
+                transition: all 0.3s;
+            }
+
+            .btn-primary:hover {
+                transform: scale(0.97);
+            }
+
+            .btn-primary:active {
+                transform: scale(0.8);
+            }
+
+
+
+        </style>
     </head>
-    <body class="bg-primary">
+    <body>
+        
         <div id="layoutAuthentication">
-            <div id="layoutAuthentication_content">
-                <main>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-5">
-                                <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header">
-                                        <h3 class="text-center font-weight-light my-4">Login</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <form id="formLogin">
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="UserName" name="UserName" type="text" placeholder="Insira o usuário" required="required"/>
-                                                <label for="labelUserName">USUÁRIO</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="Password" name="Password" type="password" placeholder="Insira sua senha" required="required"/>
-                                                <label for="Password">SENHA</label>
-                                            </div>
-                                            <div class="form-floating mb-3"></div>
-                                            <div class="d-flex align-items-center justify-content-center mt-4 mb-0">
-                                                <button type="button" class="btn btn-primary" onclick="vwLogin()">Login</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="card-footer text-center py-3">                                      
-                                    </div>
-                                </div>
-                            </div>
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Login</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form id="formLogin">
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="UserName" name="UserName" type="text" placeholder="Usuário" required="required"/>
+                            <label for="UserName">Usuário</label>
                         </div>
-                    </div>
-                </main>
-            </div>
-            <div id="layoutAuthentication_footer">
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; DW3</div>
-                            <div>
-                                &middot;
-                            </div>
+                        <div class="form-floating mb-4">
+                            <input class="form-control" id="Password" name="Password" type="password" placeholder="Senha" required="required"/>
+                            <label for="Password">Senha</label>
                         </div>
-                    </div>
-                </footer>
-            </div>
+                        
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-primary" onclick="vwLogin()">
+                                ENTRAR
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                </div>
         </div>
+
         <script src="/static/js/5.3/bootstrap.bundle.min.js"></script>
         <script src="/static/js/jquery-3.7.1.slim.min.js"></script>
         <script src="/static/js/scripts.js"></script>
@@ -69,6 +127,7 @@
         <script src="../apps/login/view/vwLogin.js"></script>
     </body>
 </html>
+
 <script>
     window.onload = function () {
         localStorage.clear();
@@ -80,21 +139,19 @@
     const constraints = {{ constraint | safe}};
 
     function Validar(formDataPar) {        
-        //@ Convert FormData to plain object
         let formDataObject = {};
         for (let [key, value] of formDataPar.entries()) {
-
             formDataObject[key] = value;
         }
         const errors = validate(formDataObject, constraints, {format: "detailed"});
 
-        //@ Mostra os erros de validação
         if (errors) {
             const errorMessages = Object
                 .values(errors)
                 .flat();
+            
             alert("O campo " + errorMessages[0]["attribute"] + " " + errorMessages[0]["options"].message);
-            //console.log("[vwLogin.js|Validar] Valor de erros:: " , errorMessages);
+            
             const idFocus = "#" + errorMessages[0]["attribute"]
             $(idFocus).focus();
             return false;
