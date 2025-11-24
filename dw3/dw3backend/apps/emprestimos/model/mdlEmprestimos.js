@@ -15,7 +15,7 @@ const GetEmprestimosByID = async (emprestimoIDPar) => {
   return (
     await db.query(
       "SELECT * " +
-      "FROM emprestimos WHERE emprestimoid = $1 and removido = false ORDER BY emprestimoid ASC",
+      "FROM emprestimos WHERE emprestimoid = $1 ORDER BY emprestimoid ASC",
       [emprestimoIDPar]
     )
   ).rows;
