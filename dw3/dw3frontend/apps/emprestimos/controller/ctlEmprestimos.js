@@ -140,9 +140,11 @@ const ViewEmprestimos = async (req, res) => {
       axios.get(process.env.SERVIDOR_DW3Back + "/GetAllLivros", { headers: { Authorization: `Bearer ${token}` } })
     ]);
 
-    registroResp.data.registro[0].datadevolucao = moment(
-      registroResp.data.registro[0].datadevolucao
-    ).format("YYYY-MM-DD");
+    if (registroResp.data.registro[0].dataemprestimo) {
+      registroResp.data.registro[0].datadevolucao = moment(
+        registroResp.data.registro[0].datadevolucao
+      ).format("YYYY-MM-DD");
+    }
     if (registroResp.data.registro[0].dataemprestimo) {
       registroResp.data.registro[0].dataemprestimo = moment(
         registroResp.data.registro[0].dataemprestimo
