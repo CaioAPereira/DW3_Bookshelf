@@ -13,7 +13,9 @@
             <select id="clienteid" class="form-control" x-model="form.clienteid">
               <option value="">Selecione</option>
               {% for c in clientes %}
-                <option value="{{ c.clienteid }}">{{ c.nomerazaosocial }}</option>
+                {% if c.removido == false %}
+                  <option value="{{ c.clienteid }}">{{ c.nomerazaosocial }}</option>
+                {%endif%}
               {% endfor %}
             </select>
           </div>
@@ -25,7 +27,9 @@
             <select id="livroid" class="form-control" x-model="form.livroid">
               <option value="">Selecione</option>
               {% for l in livros %}
-                <option value="{{ l.livroid }}">{{ l.titulo }}</option>
+                {% if l.removido == false %}
+                  <option value="{{ l.livroid }}">{{ l.titulo }}</option>
+                {%endif%}
               {% endfor %}
             </select>
           </div>
