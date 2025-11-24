@@ -37,6 +37,9 @@ const InsertEmprestimos = (request, res) =>
       let registroCliente = await mdlClientes.GetClienteByID(parseInt(registro.clienteid));
       const nomeCliente = registroCliente[0] ? registroCliente[0].nomerazaosocial : "Cliente";
 
+      let registroLivro = await mdlLivros.GetLivroByID(parseInt(registro.livroid));
+      const nomeLivro = registroLivro[0] ? registroLivro[0].titulo : "Titulo";
+
       // 3. Prepara e Insere a Conta AUTOMATICAMENTE
       console.log("NovoID: " + retornoEmp.novoID);
       let jsonContas = {
@@ -45,6 +48,8 @@ const InsertEmprestimos = (request, res) =>
         dtarecebimento: registro.dataemprestimo,
         dtavencimento: registro.datadevolucao,
         clienteid: registro.clienteid,
+        nome: nomeCliente,
+        titulo: nomeLivro,
         emprestimoid: retornoEmp.novoID // <--- AQUI ESTÁ O VÍNCULO!
       };
 

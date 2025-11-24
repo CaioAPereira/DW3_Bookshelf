@@ -29,7 +29,7 @@
               </thead>
               <tbody>
                 {% for reg in data %}
-                  <tr>
+                  <tr style="{{ 'background-color:#ef6666' if reg.removido else '' }}">
                     <td>
                       <a href="/clientes/viewClientes/{{ reg.clienteid }}" title="Visualizar">
                         <i class="fas fa-search"></i>

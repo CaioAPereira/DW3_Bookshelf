@@ -1,4 +1,5 @@
 const axios = require("axios");
+const moment = require("moment");
 
 // =====================================================================
 // MANUTENÇÃO (LISTAGEM)
@@ -7,14 +8,31 @@ const manutEmprestimos = async (req, res) => {
   const userName = req.session.userName;
   const token = req.session.token;
 
+
+
   try {
     const resp = await axios.get(process.env.SERVIDOR_DW3Back + "/GetAllEmprestimos", {
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
     });
 
+    const dadosFormatadosEmp = resp.data.registro.map((emprestimo) => {
+      if (emprestimo.dataemprestimo) {
+        emprestimo.dataemprestimo = moment(emprestimo.dataemprestimo).format(
+          "DD/MM/YYYY"
+        );
+      }
+      if (emprestimo.datadevolucao) {
+
+        emprestimo.datadevolucao = moment(emprestimo.datadevolucao).format(
+          "DD/MM/YYYY"
+        );
+      }
+      return emprestimo;
+    });
+
     res.render("emprestimos/view/vwManutEmprestimos.njk", {
       title: "Manutenção de Empréstimos",
-      data: resp.data.registro,
+      data: dadosFormatadosEmp,
       erro: null,
       userName: userName,
     });
@@ -32,6 +50,10 @@ const manutEmprestimos = async (req, res) => {
     });
   }
 };
+
+
+
+
 
 // =====================================================================
 // INSERT (CADASTRO)
@@ -117,6 +139,16 @@ const ViewEmprestimos = async (req, res) => {
       axios.get(process.env.SERVIDOR_DW3Back + "/GetAllClientes", { headers: { Authorization: `Bearer ${token}` } }),
       axios.get(process.env.SERVIDOR_DW3Back + "/GetAllLivros", { headers: { Authorization: `Bearer ${token}` } })
     ]);
+
+    registroResp.data.registro[0].datadevolucao = moment(
+      registroResp.data.registro[0].datadevolucao
+    ).format("YYYY-MM-DD");
+    if (registroResp.data.registro[0].dataemprestimo) {
+      registroResp.data.registro[0].dataemprestimo = moment(
+        registroResp.data.registro[0].dataemprestimo
+      ).format("YYYY-MM-DD");
+    }
+
 
     res.render("emprestimos/view/vwFRUDrEmprestimos.njk", {
       title: "Visualização de Empréstimo",

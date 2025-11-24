@@ -3,7 +3,7 @@ const db = require("../../../database/databaseconfig");
 const GetAllLivros = async () => {
   return (
     await db.query(
-      "SELECT * FROM livros where removido = false ORDER BY titulo ASC"
+      "SELECT * FROM livros ORDER BY titulo ASC"
     )
   ).rows;
 };
@@ -12,7 +12,7 @@ const GetLivroByID = async (livroIDPar) => {
   return (
     await db.query(
       "SELECT * " +
-        "FROM livros WHERE livroid = $1 and removido = false ORDER BY titulo ASC",
+      "FROM livros WHERE livroid = $1 ORDER BY titulo ASC",
       [livroIDPar]
     )
   ).rows;
@@ -28,7 +28,7 @@ const InsertLivros = async (registroPar) => {
     linhasAfetadas = (
       await db.query(
         "INSERT INTO livros (removido, titulo, genero, autor, anopublicacao) " +
-          "values(default, $1, $2, $3, $4)",
+        "values(default, $1, $2, $3, $4)",
         [
           titulo,
           genero,
@@ -55,12 +55,12 @@ const UpdateLivros = async (registroPar) => {
     linhasAfetadas = (
       await db.query(
         "UPDATE livros SET " +
-          "titulo = $2, " +
-          "genero = $3, " +
-          "autor = $4, " +
-          "anopublicacao = $5, " +
-          "removido = $6 " +
-          "WHERE livroid = $1",
+        "titulo = $2, " +
+        "genero = $3, " +
+        "autor = $4, " +
+        "anopublicacao = $5, " +
+        "removido = $6 " +
+        "WHERE livroid = $1",
         [
           registroPar.livroid,
           titulo,
@@ -99,9 +99,9 @@ const DeleteLivros = async (registroPar) => {
 };
 
 module.exports = {
-    GetAllLivros,
-    GetLivroByID,
-    InsertLivros,
-    UpdateLivros,
-    DeleteLivros,
+  GetAllLivros,
+  GetLivroByID,
+  InsertLivros,
+  UpdateLivros,
+  DeleteLivros,
 };
