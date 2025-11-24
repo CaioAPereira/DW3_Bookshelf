@@ -13,9 +13,14 @@
           <label>Cliente</label>
           <select class="form-control" x-model="form.clienteid" x-bind:disabled="disabled">
             <option value="">-- selecione --</option>
-            {% for c in clientes %}
-              <option value="{{ c.clienteid }}" {% if data and data.clienteid == c.clienteid %}selected{% endif %}>{{ c.nomerazaosocial }}</option>
-            {% endfor %}
+              {% for c in clientes %}
+                {# Exibe se estiver ativo OU se for o ID que já veio selecionado no 'data' #}
+                {% if not c.removido or (data and data.clienteid == c.clienteid) %}
+                  <option value="{{ c.clienteid }}" {% if data and data.clienteid == c.clienteid %}selected{% endif %}>
+                    {{ c.nomerazaosocial }}
+                  </option>
+                {% endif %}
+              {% endfor %}
           </select>
         </div>
 
@@ -23,9 +28,15 @@
           <label>Livro</label>
           <select class="form-control" x-model="form.livroid" x-bind:disabled="disabled">
             <option value="">-- selecione --</option>
-            {% for l in livros %}
-              <option value="{{ l.livroid }}" {% if data and data.livroid == l.livroid %}selected{% endif %}>{{ l.titulo }}</option>
-            {% endfor %}
+              {% for l in livros %}
+                {# Lógica: Mostrar SE não for removido OU SE for o ID já selecionado (mesmo que removido) #}
+                {% if not l.removido or (data and data.livroid == l.livroid) %}
+                  <option value="{{ l.livroid }}" {% if data and data.livroid == l.livroid %}selected{% endif %}>
+                    {{ l.titulo }}
+                  </option>
+                {% endif %}
+              {% endfor %}
+                          
           </select>
         </div>
 
