@@ -3,7 +3,10 @@ const db = require("../../../database/databaseconfig");
 const GetAllEmprestimos = async () => {
   return (
     await db.query(
-      "SELECT * FROM emprestimos where removido = false ORDER BY emprestimoid ASC"
+      "SELECT E.emprestimoid, E.dataemprestimo, E.datadevolucao, E.removido, E.clienteid, E.livroid, C.nomerazaosocial, L.titulo" +
+      " FROM Emprestimos AS E" +
+      " INNER JOIN Clientes AS C ON E.clienteid = C.clienteid" +
+      " INNER JOIN Livros AS L ON E.livroid = L.livroid"
     )
   ).rows;
 };
@@ -12,7 +15,7 @@ const GetEmprestimosByID = async (emprestimoIDPar) => {
   return (
     await db.query(
       "SELECT * " +
-        "FROM emprestimos WHERE emprestimoid = $1 and removido = false ORDER BY emprestimoid ASC",
+      "FROM emprestimos WHERE emprestimoid = $1 and removido = false ORDER BY emprestimoid ASC",
       [emprestimoIDPar]
     )
   ).rows;
@@ -27,7 +30,7 @@ const InsertEmprestimos = async (registroPar) => {
 
     const result = await db.query(
       "INSERT INTO emprestimos (removido, clienteid, livroid, dataemprestimo, datadevolucao, valoremprestimo) " +
-        "values(default, $1, $2, $3, $4, $5) RETURNING emprestimoid",
+      "values(default, $1, $2, $3, $4, $5) RETURNING emprestimoid",
       [
         clienteid,
         livroid,
@@ -61,12 +64,12 @@ const UpdateEmprestimos = async (registroPar) => {
     linhasAfetadas = (
       await db.query(
         "UPDATE emprestimos SET " +
-          "clienteid = $2, " +
-          "livroid = $3, " +
-          "dataemprestimo = $4, " +
-          "datadevolucao = $5, " +
-          "valoremprestimo = $6 " +
-          "WHERE emprestimoid = $1",
+        "clienteid = $2, " +
+        "livroid = $3, " +
+        "dataemprestimo = $4, " +
+        "datadevolucao = $5, " +
+        "valoremprestimo = $6 " +
+        "WHERE emprestimoid = $1",
         [
           registroPar.emprestimoid,
           clienteid,
@@ -93,8 +96,8 @@ const DeleteEmprestimos = async (registroPar) => {
     linhasAfetadas = (
       await db.query(
         "UPDATE emprestimos SET " +
-          "removido = true " +
-          "WHERE emprestimoid = $1",
+        "removido = true " +
+        "WHERE emprestimoid = $1",
         [registroPar.emprestimoid]
       )
     ).rowCount;

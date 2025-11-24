@@ -3,7 +3,7 @@ const db = require("../../../database/databaseconfig");
 const GetAllClientes = async () => {
   return (
     await db.query(
-      "SELECT * FROM clientes where removido = false ORDER BY nomerazaosocial ASC"
+      "SELECT * FROM clientes ORDER BY nomerazaosocial ASC"
     )
   ).rows;
 };
@@ -12,7 +12,7 @@ const GetClienteByID = async (clienteIDPar) => {
   return (
     await db.query(
       "SELECT * " +
-        "FROM clientes WHERE clienteid = $1 and removido = false ORDER BY nomerazaosocial ASC",
+      "FROM clientes WHERE clienteid = $1 ORDER BY nomerazaosocial ASC",
       [clienteIDPar]
     )
   ).rows;
@@ -28,7 +28,7 @@ const InsertClientes = async (registroPar) => {
     linhasAfetadas = (
       await db.query(
         "INSERT INTO clientes (removido, nomerazaosocial, cpf_cnpj, email) " +
-          "values(default, $1, $2, $3)",
+        "values(default, $1, $2, $3)",
         [
           nome,
           cpf,
@@ -54,11 +54,11 @@ const UpdateClientes = async (registroPar) => {
     linhasAfetadas = (
       await db.query(
         "UPDATE clientes SET " +
-          "cpf_cnpj = $2, " +
-          "nomerazaosocial = $3, " +
-          "email = $4, " +
-          "removido = $5 " +
-          "WHERE clienteid = $1",
+        "cpf_cnpj = $2, " +
+        "nomerazaosocial = $3, " +
+        "email = $4, " +
+        "removido = $5 " +
+        "WHERE clienteid = $1",
         [
           registroPar.clienteid,
           cpf,

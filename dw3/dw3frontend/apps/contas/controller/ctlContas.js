@@ -30,7 +30,7 @@ const manutContas = async (req, res) =>
           );
         }
         if (conta.dtarecebimento) {
-    
+
           conta.dtarecebimento = moment(conta.dtarecebimento).format(
             "DD/MM/YYYY"
           );
@@ -44,6 +44,7 @@ const manutContas = async (req, res) =>
         erro: null,
         userName: userName,
       });
+
     } catch (error) {
 
       let remoteMSG = "";
@@ -170,7 +171,7 @@ const ViewContas = async (req, res) =>
                 Authorization: `Bearer ${token}`,
               },
             }
-          ); 
+          );
 
           response.data.registro[0].dtavencimento = moment(
             response.data.registro[0].dtavencimento
@@ -233,7 +234,7 @@ const UpdateContas = async (req, res) =>
                   Authorization: `Bearer ${token}`,
                 },
               }
-            ); 
+            );
 
             response.data.registro[0].dtavencimento = moment(
               response.data.registro[0].dtavencimento
@@ -253,7 +254,7 @@ const UpdateContas = async (req, res) =>
               erro: null,
             });
           } catch (errorClientes) {
-  
+
           }
         } else {
 

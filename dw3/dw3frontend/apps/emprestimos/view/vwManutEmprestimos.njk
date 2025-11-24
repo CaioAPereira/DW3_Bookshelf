@@ -26,7 +26,7 @@
 
             <tbody>
               {% for reg in data %}
-                <tr>
+                <tr style="{{ 'background-color:#ef6666' if reg.removido else '' }}">
                   <td>
                     <a href="/emprestimos/ViewEmprestimos/{{ reg.emprestimoid }}" title="Visualizar">
                       <i class="fas fa-search"></i></a>
@@ -37,9 +37,9 @@
                   </td>
 
                   <!-- Aqui removemos o bloco com erro do set -->
-                  <td>{{ reg.clienteid }}</td>
+                  <td>{% if data and data.clienteid == reg.clienteid %}{% endif %}{{ reg.nomerazaosocial }}</td>
 
-                  <td>{{ reg.livroid }}</td>
+                  <td>{% if data and data.livroid == reg.livroid %}{% endif %}{{ reg.titulo }}</td>
 
                   <td>{{ reg.dataemprestimo }}</td>
 
